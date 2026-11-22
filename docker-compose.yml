@@ -1,0 +1,31 @@
+# Base de datos MySQL 8.4 con el esquema y los datos de demostración.
+#   docker compose up -d      -> levanta la base en localhost:3306
+#   docker compose down -v    -> la elimina (incluidos los datos)
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: actas-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: actas
+      MYSQL_USER: actas
+      MYSQL_PASSWORD: actas
+      MYSQL_ROOT_PASSWORD: root-solo-desarrollo
+      TZ: America/Guayaquil
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro
+      - actas-data:/var/lib/mysql
+    healthcheck:
+      # TCP (no socket): el servidor temporal de inicialización no escucha en TCP
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uactas", "-pactas"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  actas-data:

@@ -1,0 +1,25 @@
+# Maven
+target/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+nbproject/private/
+nbactions.xml
+
+# Configuración local (puede contener credenciales)
+/actas.properties
+.env
+
+# Sistema / JVM
+.DS_Store
+Thumbs.db
+hs_err_pid*.log
+*.log
+
+# Actas exportadas
+acta-*.md
